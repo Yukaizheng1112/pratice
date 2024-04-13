@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>蛋白質計算器</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>蛋白質計算器</h1>
+  </div>  
+  <div class="container">
+    <label for="weightInput">請輸入您的體重（公斤）：</label>
+    <input type="number" id="weightInput">
+    <br>
+    <label for="activityLevel">請選擇您的活動水平：</label>
+    <select id="activityLevel">
+      <option value="輕度活動">輕度活動 - 日常生活較為靜態，運動量較少</option>
+      <option value="中度活動">中度活動 - 每週進行適度的運動，如散步、游泳等</option>
+      <option value="高度活動">高度活動 - 每天進行高強度運動，如運動員</option>
+    </select>
+    <br>
+    <label for="foodSelect">請選擇第一種食物：</label>
+    <select id="foodSelect">
+      <option value="雞胸肉">雞胸肉 - 30.0 克/100 克</option>
+      <option value="瘦牛肉">瘦牛肉 - 26.0 克/100 克</option>
+      <option value="蝦子">蝦子 - 24.0 克/100 克</option>
+      <option value="花生">花生 - 25.0 克/100 克</option>
+      <option value="鮭魚">鮭魚 - 22.0 克/100 克</option>
+      <option value="鮪魚">鮪魚 - 25.0 克/100 克</option>
+      <option value="腰果">腰果 - 18.0 克/100 克</option>
+      <option value="瘦豬肉">瘦豬肉 - 29.0 克/100 克</option>
+      <option value="鴨肉">鴨肉 - 24.0 克/100 克</option>
+      <option value="大豆">大豆 - 36.0 克/100 克</option>
+      <option value="鮮奶">鮮奶 - 3.2 克/100 克</option>
+      <option value="豆漿">豆漿 - 5.0 克/100 克</option>
+      <option value="豆腐">豆腐 - 3.3 克/100 克</option>
+    </select>
+    <br>
+    <label for="intakeAmount1">請輸入第一種食物的攝取量（克）：</label>
+    <input type="number" id="intakeAmount1" min="0">
+    <br>
+    <label for="foodSelect2">請選擇第二種食物（選擇 "無" 可跳過）：</label>
+    <select id="foodSelect2">
+      <option value="無">無</option>
+      <option value="雞胸肉">雞胸肉 - 30.0 克/100 克</option>
+      <option value="瘦牛肉">瘦牛肉 - 26.0 克/100 克</option>
+      <option value="蝦子">蝦子 - 24.0 克/100 克</option>
+      <option value="花生">花生 - 25.0 克/100 克</option>
+      <option value="鮭魚">鮭魚 - 22.0 克/100 克</option>
+      <option value="鮪魚">鮪魚 - 25.0 克/100 克</option>
+      <option value="腰果">腰果 - 18.0 克/100 克</option>
+      <option value="瘦豬肉">瘦豬肉 - 29.0 克/100 克</option>
+      <option value="鴨肉">鴨肉 - 24.0 克/100 克</option>
+      <option value="大豆">大豆 - 36.0 克/100 克</option>
+      <option value="鮮奶">鮮奶 - 3.2 克/100 克</option>
+      <option value="豆漿">豆漿 - 5.0 克/100 克</option>
+      <option value="豆腐">豆腐 - 3.3 克/100 克</option>
+    </select>
+    <br>
+    <label for="intakeAmount2">請輸入第二種食物的攝取量（克）：</label>
+    <input type="number" id="intakeAmount2" min="0">
+    <br>
+    <button onclick="calculateProtein()">計算</button>
+    <br>
+    <p id="proteinInfo" class="result"></p>
+  </div>
+
+  <script>
+    function calculateProtein() {
+      const weight = parseFloat(document.getElementById("weightInput").value);
+      const activityLevel = document.getElementById("activityLevel").value;
+      const selectedFood1 = document.getElementById("foodSelect").value;
+      const intakeAmount1 = parseFloat(document.getElementById("intakeAmount1").value);
+      const selectedFood2 = document.getElementById("foodSelect2").value;
+      const intakeAmount2 = parseFloat(document.getElementById("intakeAmount2").value);
+
+      let proteinNeeded;
+      if (activityLevel === "輕度活動") {
+        proteinNeeded = weight * 0.8;
+      } else if (activityLevel === "中度活動") {
+        proteinNeeded = weight * 1.0;
+      } else {
+        proteinNeeded = weight * 1.2;
+      }
+
+      const foodProteinMap = {
+        "雞胸肉": 30.0,
+        "瘦牛肉": 26.0,
+        "蝦子": 24.0,
+        "花生": 25.0,
+        "鮭魚": 22.0,
+        "鮪魚": 25.0,
+        "腰果": 18.0,
+        "瘦豬肉": 29.0,
+        "鴨肉": 24.0,
+        "大豆": 36.0,
+        "鮮奶": 3.2,
+        "豆漿":5,
+        "豆腐":3.3
+      };
+
+      let proteinAmount = 0;
+      if (selectedFood1 !== "無" && intakeAmount1 > 0) {
+        proteinAmount += foodProteinMap[selectedFood1] * intakeAmount1 / 100;
+      }
+      if (selectedFood2 !== "無" && intakeAmount2 > 0) {
+        proteinAmount += foodProteinMap[selectedFood2] * intakeAmount2 / 100;
+      }
+
+      const proteinShortage = (proteinNeeded - proteinAmount).toFixed(2);
+      
+      const proteinInfoElement = document.getElementById("proteinInfo");
+      proteinInfoElement.innerHTML = `您每天所需的蛋白質量為：${proteinNeeded} 克<br>`;
+      if (proteinAmount > 0) {
+        proteinInfoElement.innerHTML += `您攝取的總蛋白質量為：${proteinAmount.toFixed(2)} 克<br>`;
+        if (proteinShortage > 0) {
+          proteinInfoElement.innerHTML += `您還需要攝取 ${proteinShortage} 克蛋白質來達到每天的需求量。`;
+        } else {
+          proteinInfoElement.innerHTML += `您已經達到每天所需的蛋白質攝取量！`;
+        }
+      } else {
+        proteinInfoElement.innerHTML += `請選擇食物以計算蛋白質攝取量。`;
+      }
+    }
+  </script>
+</body>
+</html>
